@@ -5,7 +5,7 @@ const router = Router();
 
 const routes = [
   {
-    path: "",
+    path: "/bookings",
     router: BookingRoutes,
   },
 ];
