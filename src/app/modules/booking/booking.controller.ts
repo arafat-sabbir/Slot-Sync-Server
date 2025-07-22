@@ -18,7 +18,6 @@ const getBookings = catchAsync(async (req, res) => {
     data: booking,
   });
 });
-
 export const bookingControllers = {
   bookSlot,
   getBookings,

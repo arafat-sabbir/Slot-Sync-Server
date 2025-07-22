@@ -9,14 +9,14 @@ datasource db {
 
 model Booking {
   id           Int      @id @default(autoincrement())
-  requestedBy  String // Person who requested the booking
-  resource     String // Resource name or ID (e.g., "Room A")
+  requestedBy  String
+  resource     String
   startTime    DateTime
   endTime      DateTime
   createdAt    DateTime @default(now())
-  status       String   @default("Upcoming") // Upcoming, Ongoing, Past, Cancelled
-  bufferBefore Int      @default(10) // Buffer time in minutes before booking (default 10)
-  bufferAfter  Int      @default(10) // Buffer time in minutes after booking (default 10)
+  status       String   @default("Upcoming")
+  bufferBefore Int      @default(10)
+  bufferAfter  Int      @default(10)
 
   @@index([resource, startTime, endTime])
 }

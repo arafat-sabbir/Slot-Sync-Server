@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler, Response } from "express";
 import { ZodError } from "zod";
@@ -34,6 +35,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   ];
 
   if (error instanceof ZodError) {
+    console.log("error", error);
     const simplifiedError = handleZodError(error);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message as any;
