@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id           Int      @id @default(autoincrement())
+  requestedBy  String // Person who requested the booking
+  resource     String // Resource name or ID (e.g., "Room A")
+  startTime    DateTime
+  endTime      DateTime
+  createdAt    DateTime @default(now())
+  status       String   @default("Upcoming") // Upcoming, Ongoing, Past, Cancelled
+  bufferBefore Int      @default(10) // Buffer time in minutes before booking (default 10)
+  bufferAfter  Int      @default(10) // Buffer time in minutes after booking (default 10)
+
+  @@index([resource, startTime, endTime])
+}
