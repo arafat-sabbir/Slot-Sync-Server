@@ -91,14 +91,15 @@ export const getBookings = async (
 
 // Cancel a booking
 export const cancelBooking = async (id: number): Promise<BookingResponse> => {
-  const booking = await prisma.booking.findUnique({ where: { id } });
+  const booking = await prisma.booking.findUnique({
+    where: { id, isActive: true },
+  });
   if (!booking) {
     throw new AppError(404, "Booking not found");
   }
 
-  const updatedBooking = await prisma.booking.update({
+  const updatedBooking = await prisma.booking.delete({
     where: { id },
-    data: { isActive: false },
   });
 
   return { ...updatedBooking, status: computeStatus(updatedBooking) };

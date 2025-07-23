@@ -61,7 +61,11 @@ app.use(globalErrorHandler);
 app.all("*", (req: Request, res: Response) => {
   res
     .status(404)
-    .json({ success: false, message: `Route Is Not Found ${req.url}` });
+    .json({
+      status: 404,
+      success: false,
+      message: `Route Is Not Found ${req.url}`,
+    });
 });
 
 export default app;
