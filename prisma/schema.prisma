@@ -8,15 +8,14 @@ datasource db {
 }
 
 model Booking {
-  id           Int      @id @default(autoincrement())
-  requestedBy  String
-  resource     String
-  startTime    DateTime
-  endTime      DateTime
-  createdAt    DateTime @default(now())
-  status       String   @default("Upcoming")
-  bufferBefore Int      @default(10)
-  bufferAfter  Int      @default(10)
+  id          Int      @id @default(autoincrement())
+  resource    String
+  startTime   DateTime
+  endTime     DateTime
+  requestedBy String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(true)
 
   @@index([resource, startTime, endTime])
 }
