@@ -1,7 +1,11 @@
 import catchAsync from "../../utils/catchAsync";
 import { bookingServices } from "./booking.service";
 import sendResponse from "../../utils/sendResponse";
-import { AvailableSlotsQueryParams, BookingQueryParams, BookingRequestBody } from "./booking.interface";
+import {
+  AvailableSlotsQueryParams,
+  BookingQueryParams,
+  BookingRequestBody,
+} from "./booking.interface";
 
 // Create a new booking (POST /api/bookings)
 const bookSlot = catchAsync(async (req, res) => {
@@ -18,12 +22,10 @@ const bookSlot = catchAsync(async (req, res) => {
 const getBookings = catchAsync(async (req, res) => {
   const query: BookingQueryParams = {
     resource: req.query.resource as string | undefined,
-    date: req.query.date as string | undefined,
+    date: req.query.date as Date | undefined,
+    status: req.query.status as string | undefined,
   };
-  const bookings = await bookingServices.getBookings(
-    query.resource,
-    query.date
-  );
+  const bookings = await bookingServices.getBookings(query);
   sendResponse(res, {
     statusCode: 200,
     message: "Bookings retrieved successfully",

@@ -61,32 +61,50 @@ export const addNewBooking = async (
 };
 
 // Get bookings with optional filters
-export const getBookings = async (
-  resource?: string,
-  date?: string
-): Promise<BookingResponse[]> => {
+
+export const getBookings = async (filters: {
+  resource?: string;
+  date?: Date;
+  status?: string;
+}): Promise<BookingResponse[]> => {
   const where: any = { isActive: true };
-  if (resource) {
-    where.resource = resource;
+
+  // Filter by resource
+  if (filters.resource && filters.resource !== "all") {
+    where.resource = filters.resource;
   }
-  if (date) {
-    const dayStart = startOfDay(new Date(date));
-    const dayEnd = endOfDay(new Date(date));
+
+  // Filter by date
+  if (filters.date) {
+    const dayStart = startOfDay(filters.date);
+    const dayEnd = endOfDay(filters.date);
     where.AND = [
       { startTime: { gte: dayStart } },
       { startTime: { lte: dayEnd } },
     ];
   }
 
+  // Get all bookings matching resource/date filters
   const bookings = await prisma.booking.findMany({
     where,
     orderBy: { startTime: "asc" },
   });
 
-  return bookings.map((booking) => ({
+  // Compute status for each booking
+  const bookingsWithStatus = bookings.map((booking) => ({
     ...booking,
     status: computeStatus(booking),
   }));
+
+  // Filter by status if specified
+  if (filters.status && filters.status !== "all") {
+    return bookingsWithStatus.filter(
+      (booking) =>
+        booking.status.toLowerCase() === filters.status?.toLowerCase()
+    );
+  }
+
+  return bookingsWithStatus;
 };
 
 // Cancel a booking

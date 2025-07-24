@@ -44,13 +44,13 @@ const createBookingSchema = z.object({
 const getBookingsQuerySchema = z.object({
   query: z.object({
     resource: z.string().optional(),
+    status: z.string().optional(),
     date: z
       .string()
       .optional()
       .refine(
-        (val) =>
-          !val || (/^\d{4}-\d{2}-\d{2}$/.test(val) && !isNaN(Date.parse(val))),
-        "Date must be in YYYY-MM-DD format and valid"
+        (val) => !val || !isNaN(Date.parse(val)),
+        "Date must be a valid date"
       ),
   }),
 });

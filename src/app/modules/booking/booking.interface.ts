@@ -30,7 +30,8 @@ interface BookingRequestBody {
 // Query params type for GET /api/bookings
 interface BookingQueryParams {
   resource?: string;
-  date?: string;
+  date?: Date;
+  status?: string;
 }
 
 // Query params type for GET /api/available-slots
