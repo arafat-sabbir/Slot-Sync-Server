@@ -44,7 +44,11 @@ const requestLogger = (req: Request, res: Response, next: NextFunction) => {
 // Middleware setup
 app.use(express.json());
 app.use(requestLogger);
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://slot-sync-client.vercel.app"],
+  })
+);
 // Use routes
 app.use("/api/v1", allRoutes);
 
